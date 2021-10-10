@@ -25,13 +25,13 @@ public class AuthController extends CommonCtrl {
 
     @PostMapping("login")
     public Resp<AuthenticationResp> login(@RequestBody AuthenticationReq req) throws UnsupportedEncodingException {
-//        String verCode = req.getVerCode();
-//        String cacheID = req.getCodeID();
-//        String cacheCode = RedisUtil.getObject(RedisUtil.generateCacheKey(CS.CacheKey.Captcha,cacheID), String.class);
-//        if(StringUtils.isEmpty(cacheCode) || !cacheCode.equalsIgnoreCase(verCode)){
-//            return Resp.fail(ApiCode.ERROR_1001);
-//        }
-//        RedisUtil.del(RedisUtil.generateCacheKey(CS.CacheKey.Captcha,cacheID));
+        String verCode = req.getVerCode();
+        String cacheID = req.getCodeID();
+        String cacheCode = RedisUtil.getObject(RedisUtil.generateCacheKey(CS.CacheKey.Captcha,cacheID), String.class);
+        if(StringUtils.isEmpty(cacheCode) || !cacheCode.equalsIgnoreCase(verCode)){
+            return Resp.fail(ApiCode.ERROR_1001);
+        }
+        RedisUtil.del(RedisUtil.generateCacheKey(CS.CacheKey.Captcha,cacheID));
         return authService.login(req);
     }
 

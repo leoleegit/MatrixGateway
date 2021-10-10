@@ -8,6 +8,7 @@ import com.matrix.media.MediaSwitch;
 import com.matrix.media.service.resp.MediaResp;
 import com.matrix.service.entity.Media;
 import com.matrix.service.impl.MediaServiceImpl;
+import io.minio.errors.*;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.IOUtils;
@@ -23,6 +24,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -124,34 +127,49 @@ public class MediaService {
         return Resp.fail("Download fail, please try again later");
     }
 
-    private static SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", Locale.getDefault());
-    public Resp<String> file(String id, HttpServletRequest request, HttpServletResponse response){
-        try {
-            Media media = mediaService.getOne(new QueryWrapper<Media>().eq("media_id",id));
-            if(media==null)
-                return Resp.fail(StrUtil.format("Can't found media by {}",id));
-            response.setHeader("Content-Disposition", StrUtil.format("{};filename={}",(isMedia(media.getType()))?"inline":"attachment",media.getName()));            response.setContentType(media.getContentType());
-            response.addHeader("Content-Length", String.valueOf(media.getSize()));
-
-            Date created_date    = media.getCreatedAt();
-            String last_modified = sdf.format(created_date);
-            response.addHeader("last-modified", "" + last_modified);
-
-            String modified_since = request.getHeader("if-modified-since");
-            if (modified_since != null && modified_since.equals(last_modified)) {
-                response.setStatus(304);
-            }else{
-                InputStream inputStream = mediaSwitch.get(media.getBucket(),id);
-                IOUtils.copy(inputStream,response.getOutputStream());
-            }
-            return Resp.success("ok");
-        }catch (Exception e){
-            log.error("",e);
-        }
-        return Resp.fail("Download fail, please try again later");
+    public Media media(String id){
+        Media media = mediaService.getOne(new QueryWrapper<Media>().eq("media_id",id));
+        return media;
     }
 
-    private boolean isMedia(String type){
+    public InputStream file(String bucket, String id){
+        Media media = mediaService.getOne(new QueryWrapper<Media>().eq("media_id",id));
+        try {
+            return mediaSwitch.get(media.getBucket(),id);
+        } catch (IOException | NoSuchAlgorithmException | InvalidKeyException | ErrorResponseException | InsufficientDataException | InternalException | XmlParserException | ServerException | InvalidResponseException e) {
+            log.error("",e);
+        }
+        return null;
+    }
+
+
+//    public Resp<String> file(String id, HttpServletRequest request, HttpServletResponse response){
+//        try {
+//            Media media = mediaService.getOne(new QueryWrapper<Media>().eq("media_id",id));
+//            if(media==null)
+//                return Resp.fail(StrUtil.format("Can't found media by {}",id));
+//            response.setHeader("Content-Disposition", StrUtil.format("{};filename={}",(isMedia(media.getType()))?"inline":"attachment",media.getName()));            response.setContentType(media.getContentType());
+//            response.addHeader("Content-Length", String.valueOf(media.getSize()));
+//
+//            Date created_date    = media.getCreatedAt();
+//            String last_modified = sdf.format(created_date);
+//            response.addHeader("last-modified", "" + last_modified);
+//
+//            String modified_since = request.getHeader("if-modified-since");
+//            if (modified_since != null && modified_since.equals(last_modified)) {
+//                response.setStatus(304);
+//            }else{
+//                InputStream inputStream = mediaSwitch.get(media.getBucket(),id);
+//                IOUtils.copy(inputStream,response.getOutputStream());
+//            }
+//            return Resp.success("ok");
+//        }catch (Exception e){
+//            log.error("",e);
+//        }
+//        return Resp.fail("Download fail, please try again later");
+//    }
+
+    public boolean isMedia(String type){
         if(CS.MediaType.image.equals(type))return true;
         if(CS.MediaType.video.equals(type))return true;
         if(CS.MediaType.voice.equals(type))return true;

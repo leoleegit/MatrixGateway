@@ -55,8 +55,12 @@ public class JsonRedisTemplate extends RedisTemplate<String, JsonObject> {
                 return null;
             } else {
                 try {
+                    String string = new String(bytes);
+                    if(!string.startsWith("{") || !string.startsWith("["))
+                        return string;
                     return MyGsonHttpMessageConverter.myGson().fromJson(new String(bytes,StandardCharsets.UTF_8),JsonObject.class);
-                } catch (Exception var3) {
+                }
+                catch (Exception var3) {
                     throw new SerializationException("Cannot deserialize", var3);
                 }
             }
