@@ -56,7 +56,7 @@ public class JsonRedisTemplate extends RedisTemplate<String, JsonObject> {
             } else {
                 try {
                     String string = new String(bytes);
-                    if(!string.startsWith("{") || !string.startsWith("["))
+                    if(!string.startsWith("{") && !string.startsWith("["))
                         return string;
                     return MyGsonHttpMessageConverter.myGson().fromJson(new String(bytes,StandardCharsets.UTF_8),JsonObject.class);
                 }
