@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.matrix.service.mapper.RoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.matrix.service.entity.Role">
+        <id column="id" property="id" />
+        <result column="code" property="code" />
+        <result column="name" property="name" />
+        <result column="desc" property="desc" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+        <result column="created_by" property="createdBy" />
+        <result column="updated_by" property="updatedBy" />
+        <result column="is_del" property="isDel" />
+    </resultMap>
+
+    <insert id="insert" parameterType="com.matrix.service.entity.Role" useGeneratedKeys="true">
+        insert into t_role(name, code, `desc`, created_by, updated_by)
+        values(#{name}, #{code}, #{desc}, #{createdBy}, #{updatedBy})
+    </insert>
+
+    <delete id="deleteById" >
+        delete from t_role t where t.id=#{id}
+    </delete>
+
+    <update id="updateById" parameterType="com.matrix.service.entity.Role" >
+        update t_role t set t.name=#{role.name}, t.`desc`=#{role.desc}, t.updated_by=#{role.updatedBy} , t.updated_at=#{role.updatedAt}
+        where t.id=#{role.id}
+    </update>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        select t.* from t_role t where t.id = #{id}
+    </select>
+
+    <select id="selectListByCreatedBy" resultMap="BaseResultMap">
+        select t.* from t_role t where t.created_by = #{createdBy} and t.is_del=0
+    </select>
+</mapper>

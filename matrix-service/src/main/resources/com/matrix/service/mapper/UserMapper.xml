@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.matrix.service.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.matrix.service.entity.User">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="nickname" property="nickname" />
+        <result column="telephone" property="telephone" />
+        <result column="email" property="email" />
+        <result column="sex" property="sex" />
+        <result column="avatar_url" property="avatarUrl" />
+        <result column="role" property="role" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+        <result column="created_by" property="createdBy" />
+        <result column="updated_by" property="updatedBy" />
+        <result column="disable" property="disable" />
+    </resultMap>
+
+    <resultMap id="ListResultMap" type="com.matrix.service.entity.User">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="nickname" property="nickname" />
+        <result column="telephone" property="telephone" />
+        <result column="email" property="email" />
+        <result column="sex" property="sex" />
+        <result column="avatar_url" property="avatarUrl" />
+        <result column="role" property="role" />
+        <result column="updated_at" property="updatedAt" />
+        <result column="updated_by" property="updatedBy" />
+        <result column="disable" property="disable" />
+    </resultMap>
+
+    <resultMap id="UserRoleResultMap" type="com.matrix.service.entity.UserWithRole">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="nickname" property="nickname" />
+        <result column="telephone" property="telephone" />
+        <result column="email" property="email" />
+        <result column="sex" property="sex" />
+        <result column="avatar_url" property="avatarUrl" />
+        <result column="role" property="role" />
+        <result column="updated_at" property="updatedAt" />
+        <result column="updated_by" property="updatedBy" />
+        <result column="disable" property="disable" />
+        <result column="role_id" property="roleId" />
+        <result column="user_id" property="userId" />
+    </resultMap>
+
+    <select id="selectByUsername" resultMap="BaseResultMap">
+        select t.* from t_user t where t.username = #{username} and t.disable = 0
+    </select>
+    <select id="selectByTelephone" resultMap="BaseResultMap">
+        select t.* from t_user t where t.telephone = #{telephone} and t.disable = 0
+    </select>
+    <select id="selectByEmail" resultMap="BaseResultMap">
+        select t.* from t_user t where t.email = #{email} and t.disable = 0
+    </select>
+
+    <select id="queryList" resultMap="UserRoleResultMap">
+        SELECT t1.id, t1.username, t1.nickname, t1.telephone, t1.email, t1.sex, t1.avatar_url, t1.role, t1.updated_at, t1.disable,
+        t2.role_id, t2.role_name
+        FROM t_user t1 left join
+        (SELECT r.id as role_id, r.code, r.name as role_name, ru.user_id FROM t_role r right join t_role_user ru on r.id = ru.role_id) t2
+        on t1.id = t2.user_id
+        ${ew.customSqlSegment}
+    </select>
+
+    <select id="queryCount" resultType="Integer">
+        SELECT count(1)
+        FROM t_user t1 left join
+        (SELECT r.id as role_id, r.code, r.name as role_name, ru.user_id FROM t_role r right join t_role_user ru on r.id = ru.role_id) t2
+        on t1.id = t2.user_id
+        ${ew.customSqlSegment}
+    </select>
+
+</mapper>

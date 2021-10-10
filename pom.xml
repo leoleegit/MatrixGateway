@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.matrix</groupId>
+    <artifactId>matrix</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-20210810</version>
+
+    <modules>
+        <module>cloud-alibaba</module>
+        <module>matrix-gateway</module>
+        <module>matrix-admin</module>
+        <module>matrix-starter</module>
+        <module>matrix-core</module>
+        <module>matrix-gen</module>
+        <module>matrix-service</module>
+        <module>matrix-media</module>
+    </modules>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <com.alibaba.cloud.version>2.2.4.RELEASE</com.alibaba.cloud.version>
+        <org.springframework.cloud.version>Hoxton.SR8</org.springframework.cloud.version>
+        <org.springframework.boot.version>2.3.4.RELEASE</org.springframework.boot.version>
+        <mybatis.generator.configurationFile>${basedir}/src/main/resources/mybatis-generator/generatorConfig.xml</mybatis.generator.configurationFile>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${com.alibaba.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${org.springframework.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${org.springframework.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <distributionManagement>
+        <repository>
+            <id>rdc-releases</id>
+            <url>https://repo.rdc.aliyun.com/repository/127858-release-DkI27e/</url>
+        </repository>
+        <snapshotRepository>
+            <id>rdc-snapshots</id>
+            <url>https://repo.rdc.aliyun.com/repository/127858-snapshot-u0PfdF/</url>
+        </snapshotRepository>
+    </distributionManagement>
+</project>

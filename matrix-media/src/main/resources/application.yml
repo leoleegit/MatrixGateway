@@ -1,0 +1,4 @@
+server:
+  port: 18086
+  servlet:
+    context-path: /media

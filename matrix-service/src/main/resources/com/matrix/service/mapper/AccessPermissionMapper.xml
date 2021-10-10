@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.matrix.service.mapper.AccessPermissionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.matrix.service.entity.AccessPermission">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="type" property="type" />
+        <result column="code" property="code" />
+        <result column="desc" property="desc" />
+        <result column="root_id" property="rootId" />
+        <result column="method" property="method" />
+        <result column="path" property="path" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+        <result column="created_by" property="createdBy" />
+        <result column="updated_by" property="updatedBy" />
+        <result column="disable" property="disable" />
+    </resultMap>
+
+    <resultMap id="WithRoleBaseResultMap" type="com.matrix.service.entity.AccessPermissionWithRole">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="type" property="type" />
+        <result column="code" property="code" />
+        <result column="desc" property="desc" />
+        <result column="root_id" property="rootId" />
+        <result column="method" property="method" />
+        <result column="path" property="path" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+        <result column="created_by" property="createdBy" />
+        <result column="updated_by" property="updatedBy" />
+        <result column="disable" property="disable" />
+        <result column="role_id" property="roleId" />
+    </resultMap>
+
+    <insert id="insert" parameterType="com.matrix.service.entity.AccessPermission" useGeneratedKeys="true">
+        insert into t_access_permission(name, `type`, code, `desc`, root_id, `method`, path, created_by, updated_by)
+        values(#{name}, #{type}, #{code}, #{desc}, #{rootId}, #{method}, #{path}, #{createdBy}, #{updatedBy})
+    </insert>
+
+    <delete id="deleteById" >
+        delete from t_access_permission t where t.id=#{id}
+    </delete>
+
+    <update id="updateById" parameterType="com.matrix.service.entity.AccessPermission" >
+        update t_access_permission t set t.name=#{permission.name}, t.`code`=#{permission.code}, t.`desc`=#{permission.desc}, t.`method`=#{permission.method}, t.path=#{permission.path}, t.updated_by=#{permission.updatedBy} , t.updated_at=#{permission.updatedAt}
+        where t.id=#{permission.id}
+    </update>
+
+    <select id="selectByRootId" resultMap="BaseResultMap">
+        select t.* from t_access_permission t where t.root_id = #{rootId} and t.type != 2
+    </select>
+
+    <select id="selectFunctionByRootId" resultMap="BaseResultMap">
+        select t.* from t_access_permission t where t.root_id = #{rootId} and t.type = 2
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        select t.* from t_access_permission t where t.id = #{id}
+    </select>
+
+    <select id="queryListByRole" resultMap="BaseResultMap">
+        SELECT t1.* FROM
+        t_access_permission t1 right join (
+        select t2.* from t_role_permission t2
+        ${ew.customSqlSegment}
+        ) t3 on t1.id = t3.permission_id
+    </select>
+
+    <select id="queryList" resultMap="WithRoleBaseResultMap">
+        SELECT t1.*, t2.role_id FROM t_access_permission t1
+        left join
+        (SELECT rp.permission_id, rp.role_id, ru.user_id from t_role_permission rp right join t_role_user ru on rp.role_id = ru.role_id group by rp.permission_id) t2
+        on t1.id = t2.permission_id
+        ${ew.customSqlSegment}
+    </select>
+
+    <select id="queryCount" resultType="Integer">
+        SELECT count(1)
+        FROM t_access_permission t1
+        left join
+        (SELECT rp.permission_id, rp.role_id, ru.user_id from t_role_permission rp right join t_role_user ru on rp.role_id = ru.role_id group by rp.permission_id) t2
+        on t1.id = t2.permission_id
+        ${ew.customSqlSegment}
+    </select>
+
+</mapper>
