@@ -1,6 +1,5 @@
 package com.matrix.admin.service;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.matrix.admin.model.req.CreateRolePermissionReq;

@@ -10,10 +10,8 @@
     <version>1.0-20210810</version>
 
     <modules>
-        <module>cloud-alibaba</module>
         <module>matrix-gateway</module>
         <module>matrix-admin</module>
-        <module>matrix-starter</module>
         <module>matrix-core</module>
         <module>matrix-gen</module>
         <module>matrix-service</module>
