@@ -2,6 +2,24 @@
 基于Spring Cloud微服务化开发平台，具有统一授权、认证后台管理系统，其中包含具备用户管理、资源权限管理、网关API 管理等多个模块。核心技术采用Spring Boot （2.3.4.RELEASE）、Spring Cloud (Hoxton.SR8) 以及Spring Cloud Alibaba 2.2.4.RELEASE 相关核心组件，采用Nacos注册和配置中心，前端采用 Ant Design Pro。 
 项目旨在低耦合为新旧项目快速提供 统一授权、认证， 负载均衡， 日志（Access Log）， 监控，熔断 等服务。
 
+### 架构摘要
+#### 前端
+基于AntDesign React 搭建，优化前端架构和功能布局，支撑中台服务化的应用开发。
+
+#### JWT鉴权
+通过`JWT`的方式来进行用户认证和信息传递，保证服务之间用户无状态的传递。
+
+#### 监控
+利用Spring Boot Admin 来监控各个独立Service的运行状态；利用Hystrix Dashboard来实时查看接口的运行状态和调用频率等。
+
+#### 负载均衡
+将服务保留的rest进行代理和网关控制，除了平常经常使用的nginx外，Spring Cloud系列的zuul和ribbon，可以帮我们进行正常的网关管控和负载均衡。 
+
+#### 服务注册与调用
+基于`Nacos`来实现的服务注册与调用，在Spring Cloud中使用Feign调用服务。
+
+#### 熔断与流控
+集成阿里`Sentinel`进行接口流量控制，通过熔断和降级处理避免服务之间的调用“雪崩”。
 
 ## 功能截图
 
