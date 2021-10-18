@@ -9,7 +9,7 @@ import java.util.List;
 
 
 @Configuration
-public class GsonHttpMessageConverterConfig extends WebMvcConfigurationSupport {
+public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     @Override
     protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {

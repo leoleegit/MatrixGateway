@@ -28,7 +28,7 @@ public enum ApiCode {
 
 
     //Login
-    ERROR_1001(1001, "Verification Code Error"),
+    ERROR_1001(1001, "The captcha is incorrect"),
     ERROR_1002(1002, "Incorrect username/password"),
 
     ERROR_0(0,"System error");
