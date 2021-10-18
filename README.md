@@ -7,12 +7,12 @@
 
 ### 基本功能
 # 功能截图
-![登录模块](http://matrix.xsocket.cn/media/file/bucket/acbd002a-f788-47fa-a113-4af2c2301b28-min/login_01.png "会员模块.png")
+![登录模块](http://matrix.xsocket.cn/media/file/bucket/acbd002a-f788-47fa-a113-4af2c2301b28/login_01.png "会员模块.png")
 
-![用户模块](http://matrix.xsocket.cn/media/file/bucket/8e6872d2-6621-44bf-b48f-5864f05c4a47-min/index_01.png "会员模块.png")
+![用户模块](http://matrix.xsocket.cn/media/file/bucket/8e6872d2-6621-44bf-b48f-5864f05c4a47/index_01.png "会员模块.png")
 
-![菜单模块](http://matrix.xsocket.cn/media/file/bucket/789e25ec-57d3-493c-ab20-7b94073e9e85-min/index_02.png "菜单模块.png")
+![菜单模块](http://matrix.xsocket.cn/media/file/bucket/789e25ec-57d3-493c-ab20-7b94073e9e85/index_02.png "菜单模块.png")
 
-![角色授权](http://matrix.xsocket.cn/media/file/bucket/293f827a-03d2-4ff1-a133-f9f2fd2ff5aa-min/index_03.png "角色授权.png")
+![角色授权](http://matrix.xsocket.cn/media/file/bucket/293f827a-03d2-4ff1-a133-f9f2fd2ff5aa/index_03.png "角色授权.png")
 
-![角色类型](http://matrix.xsocket.cn/media/file/bucket/9b08066b-797a-44cc-8b5c-1d8e9595249d-min/index_04.png "角色类型.png") 
+![角色类型](http://matrix.xsocket.cn/media/file/bucket/9b08066b-797a-44cc-8b5c-1d8e9595249d/index_04.png "角色类型.png") 
