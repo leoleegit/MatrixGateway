@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -49,10 +50,27 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     }
 
     private AuthUserDetails commonFilter(HttpServletRequest request){
+        /**
+         * Gateway 重写 PayloadHeader 授权
+         * **/
+        String payloadID = request.getHeader(securityConfig.getPayloadHeader());
+        if(!StringUtils.isEmpty(payloadID)){
+            AuthUserDetails authUserDetails = RedisUtil.getObject(payloadID,AuthUserDetails.class);
+            return authUserDetails;
+        }
 
         String authToken = request.getHeader(securityConfig.getTokenHeader());
         if(StringUtils.isEmpty(authToken)){
             authToken = request.getParameter(securityConfig.getTokenHeader());
+        }else if(StringUtils.isEmpty(authToken) && securityConfig.isCookieTokenEnable()){
+            if (request.getCookies() != null) {
+                for (Cookie cookie : request.getCookies()) {
+                    if (cookie.getName().equals(securityConfig.getTokenHeader())) {
+                        authToken = cookie.getValue();
+                        break;
+                    }
+                }
+            }
         }
         if(StringUtils.isEmpty(authToken)){
             return null;

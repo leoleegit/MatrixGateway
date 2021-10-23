@@ -1,4 +1,4 @@
-package com.matrix.core.config;
+package com.matrix.gateway.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;

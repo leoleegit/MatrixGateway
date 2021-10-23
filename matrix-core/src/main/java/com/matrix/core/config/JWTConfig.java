@@ -14,6 +14,9 @@ public class JWTConfig {
     @Value("${matrix.security.jwt.secret:37620098-8cc2-4fae-a5c8-c36765ebacf4}")
     private String secret;
 
+    /**
+     * Min
+     */
     @Value("${matrix.security.jwt.expiresIn:120}")
     private Long expiresIn;
 }

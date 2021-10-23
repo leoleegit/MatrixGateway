@@ -1,5 +1,7 @@
 package com.matrix.core.constants;
 
+import cn.hutool.core.util.StrUtil;
+
 public class CS {
 
     public interface Sex {
@@ -15,8 +17,10 @@ public class CS {
     }
 
     public interface CacheKey {
-        public static final String Captcha = "Captcha";
-        public static final String Token   = "Token";
+        public static final String CAPTCHA = "CAPTCHA:{}";
+        public static final String TOKEN   = "TOKEN";
+        public static final String All_PERMISSION  = "All_PERMISSION";
+        public static final String USER_PERMISSION = "USER_PERMISSION:{}";
     }
 
     public interface Role {
@@ -51,5 +55,13 @@ public class CS {
 
         public static final int thumbMaxWidth  = 275;
         public static final int thumbMaxHeight = 312;
+    }
+
+    public static String cacheKey(String prefix, String id){
+        return StrUtil.format(prefix,id);
+    }
+
+    public static String cachePrefix(String key){
+        return cacheKey(key,"");
     }
 }

@@ -142,33 +142,6 @@ public class MediaService {
         return null;
     }
 
-
-//    public Resp<String> file(String id, HttpServletRequest request, HttpServletResponse response){
-//        try {
-//            Media media = mediaService.getOne(new QueryWrapper<Media>().eq("media_id",id));
-//            if(media==null)
-//                return Resp.fail(StrUtil.format("Can't found media by {}",id));
-//            response.setHeader("Content-Disposition", StrUtil.format("{};filename={}",(isMedia(media.getType()))?"inline":"attachment",media.getName()));            response.setContentType(media.getContentType());
-//            response.addHeader("Content-Length", String.valueOf(media.getSize()));
-//
-//            Date created_date    = media.getCreatedAt();
-//            String last_modified = sdf.format(created_date);
-//            response.addHeader("last-modified", "" + last_modified);
-//
-//            String modified_since = request.getHeader("if-modified-since");
-//            if (modified_since != null && modified_since.equals(last_modified)) {
-//                response.setStatus(304);
-//            }else{
-//                InputStream inputStream = mediaSwitch.get(media.getBucket(),id);
-//                IOUtils.copy(inputStream,response.getOutputStream());
-//            }
-//            return Resp.success("ok");
-//        }catch (Exception e){
-//            log.error("",e);
-//        }
-//        return Resp.fail("Download fail, please try again later");
-//    }
-
     public boolean isMedia(String type){
         if(CS.MediaType.image.equals(type))return true;
         if(CS.MediaType.video.equals(type))return true;

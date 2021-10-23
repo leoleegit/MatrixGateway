@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class PathTester {
     public static void main(String[] args){
-        password();
+        path();
     }
 
     public static void password(){
@@ -21,8 +21,8 @@ public class PathTester {
     }
 
     public static void path(){
-        String requestUri = "/admin/group/fsdffsd/authority";
-        String uri = "/admin/group/{*}/authority";
+        String requestUri = "/admin/permission/list/function";
+        String uri = "/admin/permission/list/function";
         uri = uri.replaceAll("\\{\\*\\}", "[a-zA-Z\\\\d]+");
         System.out.println(uri);
         String regEx = "^" + uri + "$";

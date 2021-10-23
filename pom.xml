@@ -16,6 +16,8 @@
         <module>matrix-gen</module>
         <module>matrix-service</module>
         <module>matrix-media</module>
+        <module>matrix-monitor</module>
+        <module>matrix-example</module>
     </modules>
 
     <properties>
@@ -24,7 +26,6 @@
         <com.alibaba.cloud.version>2.2.4.RELEASE</com.alibaba.cloud.version>
         <org.springframework.cloud.version>Hoxton.SR8</org.springframework.cloud.version>
         <org.springframework.boot.version>2.3.4.RELEASE</org.springframework.boot.version>
-        <mybatis.generator.configurationFile>${basedir}/src/main/resources/mybatis-generator/generatorConfig.xml</mybatis.generator.configurationFile>
     </properties>
 
     <dependencyManagement>

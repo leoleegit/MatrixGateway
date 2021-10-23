@@ -60,7 +60,7 @@ public class AuthService {
         AuthUserDetails authUserDetails = (AuthUserDetails) authentication.getPrincipal();
         UserInfo userInfo = authUserDetails.getUserInfo();
         String cacheID = UUID.fastUUID().toString();
-        String id      = RedisUtil.generateCacheKey(CS.CacheKey.Token,cacheID);
+        String id      = CS.cacheKey(CS.CacheKey.TOKEN,cacheID);
 
         //save cache
         authUserDetails.setCacheKey(id);
@@ -96,7 +96,7 @@ public class AuthService {
 
         //Redis cache
         String cacheID = UUID.fastUUID().toString();
-        RedisUtil.setObject(RedisUtil.generateCacheKey(CS.CacheKey.Captcha,cacheID), lineCaptcha.getCode(), 60 ); // 1 min
+        RedisUtil.setObject(CS.cacheKey(CS.CacheKey.CAPTCHA,cacheID), lineCaptcha.getCode(), 60 ); // 1 min
 
         JsonObject jsonObject = JsonBuilder.builder()
                 .add("imageBase64Data",lineCaptcha.getImageBase64Data())

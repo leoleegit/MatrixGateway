@@ -1,7 +1,6 @@
 package com.matrix.core.util;
 
 import cn.hutool.core.util.StrUtil;
-import com.google.gson.JsonObject;
 import com.matrix.core.cache.JsonRedisTemplate;
 import com.matrix.core.config.RedisConfig;
 import com.matrix.core.config.SpringBeansUtil;
@@ -9,7 +8,10 @@ import com.matrix.core.model.rest.MyGsonHttpMessageConverter;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.CollectionUtils;
 
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class RedisUtil {
@@ -26,16 +28,13 @@ public class RedisUtil {
         return redisTemplate;
     }
 
-    public static String generateCacheKey(String prefix, String id){
-        return StrUtil.format("{}-{}",prefix,id);
-    }
-
-    public static <T> T getObject(String key, Class<T> cls) {
-        if(cls == String.class)
-            return (T) getRedisTemplate().opsForValue().get(key);
+    public static <T> T getObject(String key, Type type) {
+        byte[] bytes = (byte[]) getRedisTemplate().opsForValue().get(key);
+        if(bytes==null)return null;
+        if(type == String.class)
+            return (T) new String(bytes, StandardCharsets.UTF_8);
         else{
-            JsonObject jsonObject = (JsonObject) getRedisTemplate().opsForValue().get(key);
-            return jsonObject!=null? MyGsonHttpMessageConverter.myGson().fromJson(jsonObject,cls):null;
+            return MyGsonHttpMessageConverter.myGson().fromJson(new String(bytes,StandardCharsets.UTF_8),type);
         }
     }
 
@@ -92,5 +91,11 @@ public class RedisUtil {
 
     public static Collection<String> keys(String pattern) {
         return getRedisTemplate().keys(pattern);
+    }
+
+    public static void delByPrefix(String prefix){
+       Set<String> keys = getRedisTemplate().keys(StrUtil.format("{}*",prefix));
+       if(keys!=null && keys.size()>0)
+          del(keys.toArray(new String[keys.size()]));
     }
 }

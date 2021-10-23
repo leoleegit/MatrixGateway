@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.matrix.admin.model.req.CreateRolePermissionReq;
 import com.matrix.core.constants.CS;
 import com.matrix.core.model.rest.Resp;
+import com.matrix.core.util.RedisUtil;
 import com.matrix.service.entity.Role;
 import com.matrix.service.entity.RolePermission;
 import com.matrix.service.entity.RoleUser;
@@ -66,6 +67,7 @@ public class RoleService {
     public Resp<Integer> insertRolePermission(RolePermission rolePermission){
         int re = rolePermissionService.insert(rolePermission);
         if(re>0){
+            RedisUtil.delByPrefix(CS.cachePrefix(CS.CacheKey.USER_PERMISSION));
             return Resp.success(re);
         }
         return Resp.fail("fail");
@@ -95,6 +97,7 @@ public class RoleService {
             rolePermission.setPermissionId(id);
             rolePermissionService.insert(rolePermission);
         }
+        RedisUtil.delByPrefix(CS.cachePrefix(CS.CacheKey.USER_PERMISSION));
         return Resp.success();
     }
 
@@ -114,6 +117,7 @@ public class RoleService {
             rolePermission.setPermissionId(id);
             rolePermissionService.insert(rolePermission);
         }
+        RedisUtil.delByPrefix(CS.cachePrefix(CS.CacheKey.USER_PERMISSION));
         return Resp.success();
     }
 }

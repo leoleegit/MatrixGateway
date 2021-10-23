@@ -1,8 +1,10 @@
 package com.matrix.admin.controller;
 
+import com.matrix.admin.model.req.CheckAccessPermissionReq;
 import com.matrix.admin.model.req.CreateAccessPermissionReq;
 import com.matrix.admin.model.req.PermissionQueryReq;
 import com.matrix.admin.model.req.UpdateAccessPermissionReq;
+import com.matrix.admin.model.resp.CheckAccessPermissionResp;
 import com.matrix.admin.model.vo.PermissionTree;
 import com.matrix.admin.service.AccessPermissionService;
 import com.matrix.core.constants.ApiCode;
@@ -28,6 +30,18 @@ public class AccessPermissionController extends CommonCtrl {
     @PostMapping("delete")
     public Resp<String> deleteById(@RequestParam("id") int id){
         return accessPermissionService.deleteById(id);
+    }
+
+    @PostMapping("check")
+    public CheckAccessPermissionResp check(@RequestBody CheckAccessPermissionReq checkAccessPermissionReq){
+        UserInfo userInfo = getCurrentUser().getUserInfo();
+        String role = userInfo.getRole();
+        if(CS.Role.SYSTEM_ADMIN.equals(role)){
+            CheckAccessPermissionResp checkAccessPermissionResp = new CheckAccessPermissionResp();
+            checkAccessPermissionResp.setIsAuth(true);
+            return checkAccessPermissionResp;
+        }
+        return accessPermissionService.check(userInfo.getId(),checkAccessPermissionReq);
     }
 
     @PostMapping("add")
