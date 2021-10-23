@@ -50,40 +50,45 @@
         where t.id=#{permission.id}
     </update>
 
-    <select id="selectByRootId" resultMap="BaseResultMap">
-        select t.* from t_access_permission t where t.root_id = #{rootId} and t.type != 2
-    </select>
-
-    <select id="selectFunctionByRootId" resultMap="BaseResultMap">
-        select t.* from t_access_permission t where t.root_id = #{rootId} and t.type = 2
-    </select>
-
     <select id="selectById" resultMap="BaseResultMap">
         select t.* from t_access_permission t where t.id = #{id}
     </select>
 
     <select id="queryListByRole" resultMap="BaseResultMap">
-        SELECT t1.* FROM
-        t_access_permission t1 right join (
-        select t2.* from t_role_permission t2
-        ${ew.customSqlSegment}
-        ) t3 on t1.id = t3.permission_id
-    </select>
-
-    <select id="queryList" resultMap="WithRoleBaseResultMap">
-        SELECT t1.*, t2.role_id FROM t_access_permission t1
-        left join
-        (SELECT rp.permission_id, rp.role_id, ru.user_id from t_role_permission rp right join t_role_user ru on rp.role_id = ru.role_id group by rp.permission_id) t2
+        select t1.*,t2.role_id from t_access_permission t1
+        right join
+        (SELECT rp.role_id, rp.permission_id FROM t_role_permission rp where  rp.role_id= #{roleId}) t2
         on t1.id = t2.permission_id
         ${ew.customSqlSegment}
     </select>
 
-    <select id="queryCount" resultType="Integer">
-        SELECT count(1)
-        FROM t_access_permission t1
-        left join
-        (SELECT rp.permission_id, rp.role_id, ru.user_id from t_role_permission rp right join t_role_user ru on rp.role_id = ru.role_id group by rp.permission_id) t2
+    <select id="queryListByRoleCount" resultMap="BaseResultMap">
+        select count(1) from t_access_permission t1
+        right join
+        (SELECT rp.role_id, rp.permission_id FROM t_role_permission rp where  rp.role_id= #{roleId}) t2
         on t1.id = t2.permission_id
+        ${ew.customSqlSegment}
+    </select>
+
+    <select id="queryListByUser" resultMap="WithRoleBaseResultMap">
+        select t1.*,t3.role_id from t_access_permission t1
+        right join
+        (SELECT rp.role_id, rp.permission_id FROM t_role_permission rp
+        right join
+        (SELECT * from t_role_user ru where  ru.user_id= #{userId} ) t2
+        on rp.role_id = t2.role_id) t3
+        on t1.id = t3.permission_id
+        ${ew.customSqlSegment}
+    </select>
+
+    <select id="queryListByUserCount" resultType="Integer">
+        select count(1) from t_access_permission t1
+        right join
+        (SELECT rp.role_id, rp.permission_id FROM t_role_permission rp
+        right join
+        (SELECT * from t_role_user ru where  ru.user_id= #{userId} ) t2
+        on rp.role_id = t2.role_id) t3
+        on t1.id = t3.permission_id
         ${ew.customSqlSegment}
     </select>
 

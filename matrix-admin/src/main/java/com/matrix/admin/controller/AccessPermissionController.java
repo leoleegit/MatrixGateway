@@ -5,6 +5,7 @@ import com.matrix.admin.model.req.CreateAccessPermissionReq;
 import com.matrix.admin.model.req.PermissionQueryReq;
 import com.matrix.admin.model.req.UpdateAccessPermissionReq;
 import com.matrix.admin.model.resp.CheckAccessPermissionResp;
+import com.matrix.admin.model.resp.ListFunctionResp;
 import com.matrix.admin.model.vo.PermissionTree;
 import com.matrix.admin.service.AccessPermissionService;
 import com.matrix.core.constants.ApiCode;
@@ -17,6 +18,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -114,7 +116,7 @@ public class AccessPermissionController extends CommonCtrl {
         UserInfo userInfo = getCurrentUser().getUserInfo();
         List<PermissionTree> list = accessPermissionService.list();
         if(!CS.Role.SYSTEM_ADMIN.equals(userInfo.getRole())){
-            List<AccessPermission> accessPermissions = accessPermissionService.queryList(userInfo.getId());
+            List<AccessPermission> accessPermissions = accessPermissionService.queryListByUser(userInfo.getId());
             return Resp.success(PermissionTree.filter(list,accessPermissions));
         }
         return Resp.success(list);
@@ -123,10 +125,26 @@ public class AccessPermissionController extends CommonCtrl {
     @PostMapping("list/function")
     public Resp<AccessPermission> listFunction(@RequestBody PermissionQueryReq permissionQueryReq){
         UserInfo userInfo = getCurrentUser().getUserInfo();
+        Resp<AccessPermission> resp;
         if(!CS.Role.SYSTEM_ADMIN.equals(userInfo.getRole())){
-            return accessPermissionService.queryFunctionList(permissionQueryReq,userInfo.getId());
+            resp =  accessPermissionService.queryFunctionList(permissionQueryReq,userInfo.getId());
         }
-        return accessPermissionService.queryFunctionList(permissionQueryReq,0);
+        resp = accessPermissionService.queryList(permissionQueryReq);
+        if(resp.getResults()==null || resp.getResults().size()==0 || permissionQueryReq.getRoleId()==0)
+            return resp;
+        Resp<AccessPermission> queryListByRoleId = accessPermissionService.queryListByRoleId(permissionQueryReq.getRoleId());
+        if(queryListByRoleId.getResults()!=null && queryListByRoleId.getResults().size()!=0){
+            List<AccessPermission> list = new ArrayList<>();
+            for(AccessPermission accessPermission : resp.getResults()){
+                ListFunctionResp listFunctionResp = new ListFunctionResp();
+                BeanUtils.copyProperties(accessPermission,listFunctionResp);
+                boolean selected = queryListByRoleId.getResults().stream().anyMatch(ap -> ap.getId() == accessPermission.getId());
+                listFunctionResp.setSelected(selected?1:0);
+                list.add(listFunctionResp);
+            }
+            resp.setResults(list);
+        }
+        return resp;
     }
 
     @GetMapping("info")
@@ -136,14 +154,5 @@ public class AccessPermissionController extends CommonCtrl {
             return Resp.fail(ApiCode.ERROR_403);
         }
         return accessPermissionService.info(id);
-    }
-
-    @GetMapping("functions")
-    public Resp<AccessPermission> functions(@RequestParam("root") int rootId){
-        String role = getCurrentUser().getUserInfo().getRole();
-        if(!CS.Role.SYSTEM_ADMIN.equals(role)){
-            return Resp.fail(ApiCode.ERROR_403);
-        }
-        return accessPermissionService.functions(rootId);
     }
 }

@@ -79,7 +79,7 @@ public class AuthService {
         authenticationResp.setToken(token);
         authenticationResp.setUser(userInfo);
 
-        List<AccessPermission> accessPermissionList = accessPermissionService.queryList(userInfo.getId());
+        List<AccessPermission> accessPermissionList = accessPermissionService.queryListByUser(userInfo.getId());
         if(accessPermissionList!=null && accessPermissionList.size()>0){
             List<String> permissions = new ArrayList<>(accessPermissionList.size());
             for (AccessPermission accessPermission: accessPermissionList) {

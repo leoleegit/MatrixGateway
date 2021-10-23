@@ -17,11 +17,9 @@ import java.util.List;
  * @since 2021-09-09
  */
 public interface AccessPermissionMapper extends BaseMapper<AccessPermission> {
-    AccessPermission selectById(@Param("id")int id);
     int updateById(@Param("permission")AccessPermission accessPermission);
-    List<AccessPermission> selectByRootId(@Param("rootId")int rootId);
-    List<AccessPermission> selectFunctionByRootId(@Param("rootId")int rootId);
-    List<AccessPermission> queryList(@Param(Constants.WRAPPER) QueryWrapper<?> queryWrapper);
-    List<AccessPermission> queryListByRole(@Param(Constants.WRAPPER) QueryWrapper<?> queryWrapper);
-    int queryCount(@Param(Constants.WRAPPER) QueryWrapper<?> queryWrapper);
+    List<AccessPermission> queryListByRole(@Param(Constants.WRAPPER) QueryWrapper<?> queryWrapper,@Param("roleId")long roleId);
+    int queryListByRoleCount(@Param(Constants.WRAPPER) QueryWrapper<?> queryWrapper,@Param("roleId")long roleId);
+    List<AccessPermission> queryListByUser(@Param(Constants.WRAPPER) QueryWrapper<?> queryWrapper,@Param("userId")long userId);
+    int queryListByUserCount(@Param(Constants.WRAPPER) QueryWrapper<?> queryWrapper,@Param("userId")long userId);
 }

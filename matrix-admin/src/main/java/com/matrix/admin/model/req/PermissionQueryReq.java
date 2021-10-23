@@ -6,4 +6,5 @@ import lombok.Data;
 @Data
 public class PermissionQueryReq extends CommonQueryReq {
     private int rootId;
+    private long roleId;
 }

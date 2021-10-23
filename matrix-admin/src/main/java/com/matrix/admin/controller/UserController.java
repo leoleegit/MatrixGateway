@@ -52,7 +52,7 @@ public class UserController extends CommonCtrl {
         UserInfo userInfo = userService.userInfo(getCurrentUser().getUsername());
         currentUserResp.setUser(userInfo);
 
-        List<AccessPermission> accessPermissionList = accessPermissionService.queryList(userInfo.getId());
+        List<AccessPermission> accessPermissionList = accessPermissionService.queryListByUser(userInfo.getId());
         if(accessPermissionList!=null && accessPermissionList.size()>0){
             List<String> permissions = new ArrayList<>(accessPermissionList.size());
             for (AccessPermission accessPermission: accessPermissionList) {

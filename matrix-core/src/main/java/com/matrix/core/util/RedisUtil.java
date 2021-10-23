@@ -94,8 +94,9 @@ public class RedisUtil {
     }
 
     public static void delByPrefix(String prefix){
-       Set<String> keys = getRedisTemplate().keys(StrUtil.format("{}*",prefix));
-       if(keys!=null && keys.size()>0)
-          del(keys.toArray(new String[keys.size()]));
+        prefix = StrUtil.format(prefix,"*");
+        Set<String> keys = getRedisTemplate().keys(StrUtil.format("{}*",prefix));
+        if(keys!=null && keys.size()>0)
+           getRedisTemplate().delete(keys);
     }
 }

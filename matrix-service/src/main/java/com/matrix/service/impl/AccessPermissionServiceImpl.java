@@ -29,27 +29,19 @@ public class AccessPermissionServiceImpl extends BaseServiceImpl<AccessPermissio
         return baseMapper.updateById(accessPermission);
     }
 
-    public List<AccessPermission> list(int root){
-        return baseMapper.selectByRootId(root);
+    public List<AccessPermission> queryListByRole(QueryWrapper<?> queryWrapper,long roleId){
+        return baseMapper.queryListByRole(queryWrapper,roleId);
     }
 
-    public List<AccessPermission> queryList(QueryWrapper<?> queryWrapper){
-        return baseMapper.queryList(queryWrapper);
+    public List<AccessPermission> queryListByUser(QueryWrapper<?> queryWrapper,long userId){
+        return baseMapper.queryListByUser(queryWrapper,userId);
     }
 
-    public List<AccessPermission> queryListByRole(QueryWrapper<?> queryWrapper){
-        return baseMapper.queryListByRole(queryWrapper);
+    public int queryListByUserCount(QueryWrapper<?> queryWrapper,long userId){
+        return baseMapper.queryListByUserCount(queryWrapper,userId);
     }
 
-    public int queryCount(QueryWrapper<?> queryWrapper){
-        return baseMapper.queryCount(queryWrapper);
-    }
-
-    public AccessPermission info(int id){
+    public AccessPermission selectById(int id){
         return baseMapper.selectById(id);
-    }
-
-    public List<AccessPermission> functionList(int root){
-        return baseMapper.selectFunctionByRootId(root);
     }
 }

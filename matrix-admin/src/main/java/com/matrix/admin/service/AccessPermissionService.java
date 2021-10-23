@@ -98,11 +98,10 @@ public class AccessPermissionService {
         Type type =new TypeToken<List<AccessPermission>>() {}.getType();
         list = RedisUtil.getObject(CS.cacheKey(CS.CacheKey.USER_PERMISSION,String.valueOf(userId)),type);
         if(list!=null)
-            return list;
+             return list;
 
         QueryWrapper<AccessPermission> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id",userId);
-        list = accessPermissionService.queryList(queryWrapper);
+        list = accessPermissionService.queryListByUser(queryWrapper,userId);
 
         RedisUtil.setObject(CS.cacheKey(CS.CacheKey.USER_PERMISSION,String.valueOf(userId)),list,12, TimeUnit.HOURS);
         return list;
@@ -144,34 +143,37 @@ public class AccessPermissionService {
         return PermissionTree.getInstance(accessPermissionService.list(queryWrapper));
     }
 
-    public List<AccessPermission> queryList(long userId){
+    public List<AccessPermission> queryListByUser(long userId){
         QueryWrapper<?> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id",userId);
-        return accessPermissionService.queryList(queryWrapper);
+        return accessPermissionService.queryListByUser(queryWrapper,userId);
     }
 
     public Resp<AccessPermission> queryListByRoleId(long roleId){
         QueryWrapper<?> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("role_id",roleId);
-        return Resp.success(accessPermissionService.queryListByRole(queryWrapper));
+        return Resp.success(accessPermissionService.queryListByRole(queryWrapper,roleId));
     }
 
     public Resp<AccessPermission> queryFunctionList(PermissionQueryReq queryReq, long userId){
         QueryWrapper<?> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("type", CS.PERMISSION_TREE.FUNCTION)
-                .eq("root_id",queryReq.getRootId())
-                .eq(userId!=0,"user_id",userId);
-        int count = accessPermissionService.queryCount(queryWrapper);
+                .eq("root_id",queryReq.getRootId());
+        int count = accessPermissionService.queryListByUserCount(queryWrapper,userId);
         PageHelper.startPage(queryReq.getCurrent(),queryReq.getPageSize());
         queryWrapper.orderBy(!StringUtils.isEmpty(queryReq.getSortField()),queryReq.isAsc(),queryReq.getSortField());
-        return Resp.success(accessPermissionService.queryList(queryWrapper)).setCount(count);
+        return Resp.success(accessPermissionService.queryListByUser(queryWrapper,userId)).setCount(count);
+    }
+
+    public Resp<AccessPermission> queryList(PermissionQueryReq queryReq){
+        QueryWrapper<AccessPermission> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("type", CS.PERMISSION_TREE.FUNCTION)
+                .eq("root_id",queryReq.getRootId());
+        int count = accessPermissionService.count(queryWrapper);
+        PageHelper.startPage(queryReq.getCurrent(),queryReq.getPageSize());
+        queryWrapper.orderBy(!StringUtils.isEmpty(queryReq.getSortField()),queryReq.isAsc(),queryReq.getSortField());
+        return Resp.success(accessPermissionService.list(queryWrapper)).setCount(count);
     }
 
     public Resp<AccessPermission> info(int id){
-        return Resp.success(accessPermissionService.info(id));
-    }
-
-    public Resp<AccessPermission> functions(int rootId){
-        return Resp.success(accessPermissionService.functionList(rootId));
+        return Resp.success(accessPermissionService.selectById(id));
     }
 }
