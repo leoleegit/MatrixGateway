@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.matrix.admin.model.req.CreateRolePermissionReq;
 import com.matrix.core.constants.CS;
 import com.matrix.core.model.rest.Resp;
-import com.matrix.core.util.RedisUtil;
+import com.matrix.core.cache.RedisUtil;
 import com.matrix.service.entity.Role;
 import com.matrix.service.entity.RolePermission;
 import com.matrix.service.entity.RoleUser;

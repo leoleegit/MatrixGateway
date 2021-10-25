@@ -16,7 +16,7 @@ import com.matrix.core.model.rest.resp.AuthenticationResp;
 import com.matrix.core.model.rest.resp.JsonBuilder;
 import com.matrix.core.model.security.AuthUserDetails;
 import com.matrix.core.model.security.UserInfo;
-import com.matrix.core.util.RedisUtil;
+import com.matrix.core.cache.RedisUtil;
 import com.matrix.service.entity.AccessPermission;
 import com.matrix.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 

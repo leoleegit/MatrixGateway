@@ -6,7 +6,7 @@
 #### 前端
 基于AntDesign React 搭建，优化前端架构和功能布局，支撑中台服务化的应用开发。
 
-####[Matrix Gateway UI](https://github.com/leoleegit/MatrixGateway) 
+####[Matrix Gateway UI](https://github.com/leoleegit/MatrixGatewayUI) 
 
 #### JWT鉴权
 通过`JWT`的方式来进行用户认证和信息传递，保证服务之间用户无状态的传递。

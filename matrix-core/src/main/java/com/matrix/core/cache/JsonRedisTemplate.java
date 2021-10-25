@@ -1,6 +1,5 @@
 package com.matrix.core.cache;
 
-import cn.hutool.core.thread.ThreadUtil;
 import com.google.gson.JsonObject;
 import com.matrix.core.model.rest.MyGsonHttpMessageConverter;
 import org.springframework.data.redis.connection.DefaultStringRedisConnection;
@@ -55,16 +54,7 @@ public class JsonRedisTemplate extends RedisTemplate<String, JsonObject> {
             if (isEmpty(bytes)) {
                 return null;
             } else {
-                try {
-//                    String string = new String(bytes);
-//                    if((string.startsWith("{") && string.endsWith("}")) ||
-//                            string.startsWith("[") && string.endsWith("]"))
-//                        return MyGsonHttpMessageConverter.myGson().fromJson(new String(bytes,StandardCharsets.UTF_8),JsonObject.class);
-                    return bytes;
-                }
-                catch (Exception var3) {
-                    throw new SerializationException("Cannot deserialize", var3);
-                }
+                return bytes;
             }
         }
 

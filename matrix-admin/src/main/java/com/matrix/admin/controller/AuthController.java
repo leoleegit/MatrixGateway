@@ -1,6 +1,5 @@
 package com.matrix.admin.controller;
 
-import com.baomidou.mybatisplus.extension.api.R;
 import com.google.gson.JsonObject;
 import com.matrix.admin.service.AuthService;
 import com.matrix.core.constants.ApiCode;
@@ -9,7 +8,7 @@ import com.matrix.core.controller.CommonCtrl;
 import com.matrix.core.model.rest.Resp;
 import com.matrix.core.model.rest.req.AuthenticationReq;
 import com.matrix.core.model.rest.resp.AuthenticationResp;
-import com.matrix.core.util.RedisUtil;
+import com.matrix.core.cache.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;

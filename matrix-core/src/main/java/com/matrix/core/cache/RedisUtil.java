@@ -1,7 +1,6 @@
-package com.matrix.core.util;
+package com.matrix.core.cache;
 
 import cn.hutool.core.util.StrUtil;
-import com.matrix.core.cache.JsonRedisTemplate;
 import com.matrix.core.config.RedisConfig;
 import com.matrix.core.config.SpringBeansUtil;
 import com.matrix.core.model.rest.MyGsonHttpMessageConverter;

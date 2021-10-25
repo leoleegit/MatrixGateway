@@ -10,7 +10,7 @@ import com.matrix.admin.model.resp.CheckAccessPermissionResp;
 import com.matrix.admin.model.vo.PermissionTree;
 import com.matrix.core.constants.CS;
 import com.matrix.core.model.rest.Resp;
-import com.matrix.core.util.RedisUtil;
+import com.matrix.core.cache.RedisUtil;
 import com.matrix.service.entity.AccessPermission;
 import com.matrix.service.impl.AccessPermissionServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +18,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import reactor.core.publisher.Mono;
 
 import java.lang.reflect.Type;
 import java.util.List;
