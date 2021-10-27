@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: matrix-monitor
+  boot:
+    admin:
+      discovery:
+        converter:
+          management-context-path: /admin/actuator
+
+
+

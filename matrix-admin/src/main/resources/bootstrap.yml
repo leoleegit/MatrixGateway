@@ -1,6 +1,9 @@
 spring:
   application:
     name: matrix-admin
+
+
+
   cloud:
     nacos:
       config:
@@ -8,4 +11,5 @@ spring:
         file-extension: yaml
       discovery:
         server-addr: 127.0.0.1:8848
+
 

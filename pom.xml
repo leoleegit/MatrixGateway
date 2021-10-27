@@ -23,9 +23,10 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <com.alibaba.cloud.version>2.2.4.RELEASE</com.alibaba.cloud.version>
+        <com.alibaba.cloud.version>2.2.6.RELEASE</com.alibaba.cloud.version>
         <org.springframework.cloud.version>Hoxton.SR8</org.springframework.cloud.version>
         <org.springframework.boot.version>2.3.4.RELEASE</org.springframework.boot.version>
+        <boot.admin.version>2.3.1</boot.admin.version>
     </properties>
 
     <dependencyManagement>

@@ -2,3 +2,5 @@ server:
   port: 18084
   servlet:
     context-path: /admin
+logging:
+  file: admin.log

@@ -1,0 +1,9 @@
+server:
+  port: 18089
+  servlet:
+    context-path: /monitor
+
+
+
+
+
