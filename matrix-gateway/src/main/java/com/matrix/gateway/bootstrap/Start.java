@@ -17,6 +17,9 @@ import org.springframework.context.annotation.ComponentScan;
         "com.matrix.gateway.filter",
         "com.matrix.gateway.service" }
 )
+/**
+ * @Author
+ * **/
 public class Start {
     public static void main(String[] args) {
         SpringApplication.run(Start.class, args);
